@@ -58,23 +58,12 @@ Hole_Number = 0
 #Creates a virable that will be used to estimate the time required for the gcode to finish in minutes
 Time_Estimate = 0 
 
-#The following function creates a new file, and then pastes in the start gcode
-def Create_New_GCode_File(Custom_File_Name): #Creates a function for creating the gcode file
-    global GCode_File #Creates a global file variable that can be recognized outside this function
-    GCode_File = open("ECM_Drilling_" + str(Custom_File_Name) +".gcode", "a") #Creates a file with a specific name
-    GCode_File.seek(0) #Go to the begining of the file
-    GCode_File.truncate() #Clear text that may already be there if the file already exists
-    GCode_File.write(Start_GCode) #Pastes in the start gcode
-    GCode_File.close()
-
 #The following function creates gcode to drill a hole at an ordered pair, relative to the origin of the workpiece. It also 
 #adjusts the coordinates using the XYZ offset, and saves the new gcode to the new gcode file.
-def Drill_Hole(X_Coordinate, Y_Coordinate, Depth, Drilling_Feed_Rate): #Crears a function for drilling a specific hole
-    global GCode_File #Uses global variable for this function
+def Drill_Hole(GCode_File, X_Coordinate, Y_Coordinate, Depth, Drilling_Feed_Rate): #Crears a function for drilling a specific hole
     global Hole_Number #Uses global varriable for this function
     global Time_Estimate #Uses global varriable for this function
     Hole_Number = Hole_Number + 1 #Adds one to the previous number of holes drilled. Note that is varriable starts at zero.
-    GCode_File = open("ECM_Drilling_" + str(Custom_File_Name) +".gcode", "a") #Opens a file with a specific name
     GCode_File.write("\n") #Skips a line
     GCode_File.write("\n" + "Hole Number "+str(Hole_Number)) #labels gcode in gcode file with the hole number
     GCode_File.write("\n" + "G1 F"+str(XY_Move_Feed_Rate) + " G1" + " X"+str(X_Coordinate + XYZ_Offset[0]) + " Y"+str(Y_Coordinate + XYZ_Offset[1])) #Moves the tool head to the XY position
@@ -86,27 +75,23 @@ def Drill_Hole(X_Coordinate, Y_Coordinate, Depth, Drilling_Feed_Rate): #Crears a
     GCode_File.write("\n" + str(Electrode_Off)) #Turns electrode off using "Electrode_Off" gcode
     GCode_File.write("\n" + "G1 F"+str(Z_Move_Feed_Rate) + " Z"+str(Move_Heigt+XYZ_Offset[2])) #Moves the electrode back up
 
-def Time_Estimate_Description():
-    global GCode_File
-    GCode_File = open("ECM_Drilling_" + str(Custom_File_Name) +".gcode", "a") #Opens a file with a specific name
-    GCode_File.write("\n\n//Time Estated to Complete: " + str(Time_Estimate) + " Minutes") #Adds time estimate to bottom
+fn = f'ECM_Drilling_{Custom_File_Name}.gcode'
+with open(fn, 'w') as f:
+    f.write(Start_GCode)
 
-Create_New_GCode_File(Custom_File_Name)
-Drill_Hole(50, 12, 3, 0.54)
-Drill_Hole(25, 12, 3, 0.44)
-Drill_Hole(30, 12, 3, 0.46)
-Drill_Hole(35, 12, 3, 0.48)
-Drill_Hole(40, 12, 3, 0.50)
-Drill_Hole(45, 12, 3, 0.52)
+    Drill_Hole(f, 50, 12, 3, 0.54)
+    Drill_Hole(f, 25, 12, 3, 0.44)
+    Drill_Hole(f, 30, 12, 3, 0.46)
+    Drill_Hole(f, 35, 12, 3, 0.48)
+    Drill_Hole(f, 40, 12, 3, 0.50)
+    Drill_Hole(f, 45, 12, 3, 0.52)
 
-Drill_Hole(25, 17, 3, 0.56)
-Drill_Hole(30, 17, 3, 0.58)
-Drill_Hole(35, 17, 3, 0.60)
-Drill_Hole(40, 17, 3, 0.62)
-Drill_Hole(45, 17, 3, 0.64)
-Drill_Hole(50, 17, 3, 0.66)
+    Drill_Hole(f, 25, 17, 3, 0.56)
+    Drill_Hole(f, 30, 17, 3, 0.58)
+    Drill_Hole(f, 35, 17, 3, 0.60)
+    Drill_Hole(f, 40, 17, 3, 0.62)
+    Drill_Hole(f, 45, 17, 3, 0.64)
+    Drill_Hole(f, 50, 17, 3, 0.66)
 
-
-GCode_File.write("\n" + End_GCode)
-GCode_File.close()
-Time_Estimate_Description()
+    f.write("\n" + End_GCode)
+    f.write("\n\n//Time Estated to Complete: " + str(Time_Estimate) + " Minutes") #Adds time estimate to bottom
