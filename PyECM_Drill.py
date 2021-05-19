@@ -9,8 +9,6 @@ Custom_File_Name = "Test"
 
 #XYZ Offsets for the workpiece. This is the distance between the origin of the machine and the origin of the work piece.
 XYZ_Offset = [67, 130, 35.2]
-#For 8 g stainless steel about Z17.7
-#For 34 g needle about Z24
 
 #The Z height at which the electrode will move between drilling
 Move_Heigt = 25
@@ -25,7 +23,7 @@ Z_Move_Feed_Rate = 250
 #material under is removed for a complete drilling of a hole through a part. It should be greater than the inter-electrode gap (below)
 Over_Shoot = 0.2
 
-#Inter-electrode Gap (mm): This is the distance maintained between the tool and the workpiece.
+#Inter-electrode Gap (mm): This is the distance maintained between the tool and the workpiece. Making this value larger may prevent shortages, but it will decrease accuracy. 
 Inter_Electrode_Gap = 0.2
 
 Start_GCode = """
@@ -92,6 +90,8 @@ def Time_Estimate_Description():
     GCode_File.write("\n\n//Time Estated to Complete: " + str(Time_Estimate) + " Minutes") #Adds time estimate to bottom
 
 Create_New_GCode_File(Custom_File_Name)
+#Here are some holes that are going to be driled in this example:
+#Drill_Hole(X,Y, Depth, Drilling_Feed_Rate). The corrdinates are relative to the origin of the workpiece, not the origin of the machine. 
 Drill_Hole(50, 12, 3, 0.54)
 Drill_Hole(25, 12, 3, 0.44)
 Drill_Hole(30, 12, 3, 0.46)
