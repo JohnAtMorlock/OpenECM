@@ -1,4 +1,4 @@
-#   PyECM_Drill by John-Mark A. Phillips 
+#   PyECM_Drill by John at Morlock Engineering
 #   Version 0.0.1
 #   The purpose of this program is to generate gcode for a 3-axis ECM machine running Marlin firmware for the drilling of holes.
 #   To run this program, make sure to complete the start and end gcode sections
