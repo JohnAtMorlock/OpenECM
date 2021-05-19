@@ -3,7 +3,7 @@ import numpy
 
 Work_Piece_Dimensions = [40, 50] #Dimensions of the tool piece in mm (X, Y)
 Electrode_Diameter = 0.23 #Diameter of the electrode in mm
-File = 'Nathan2.JPG' #The name of the file to be used as a source
+File = 'example.JPG' #The name of the file to be used as a source
 GCode_Output_File = 'Output_GCode.gcode' #The name of the file to be used for the resulting gcode
 XYZ_Offset = [65, 20, 24] #XYZ Offsets for the workpiece. This is the distance between the origin of the machine and the origin of the work piece.
 Start_Location = [80, 50, 30]
@@ -158,13 +158,13 @@ def Engraving_Loop():
         Check_Row_Sum(Current_Row)
         if Row_Status == True: 
             Engrave_Row(Current_Row)
-            #Add function to move down the correct amount
+          
             Current_Row = Current_Row + 1
         if Current_Row >= (Number_Of_Rows - 1):
             break
         if Row_Status == False: 
             Current_Row = Current_Row + 1
-            #Add function to move down the correct amount
+            
 
 #First, create an array from an image. To do this, the image is resized to fit the size of the 
 #workpiece. The size of the electrode dictates resolution of the array. The resulting array is a collection
